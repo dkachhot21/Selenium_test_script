@@ -94,4 +94,4 @@ def test_flipkart_search(browser):
         driver.quit()
 
 if __name__ == "__main__":
-    pytest.main()
+    pytest.main(["-v", "-n", "3", "Flipkart_v1.py"])
