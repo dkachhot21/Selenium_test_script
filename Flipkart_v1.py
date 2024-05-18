@@ -3,19 +3,17 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 import time
 import pytest
-import sys
-import codecs
 
 def setup_driver(browser):
     print(f"Setting up {browser} driver.")
     if browser == "firefox":
         driver = webdriver.Firefox()
     elif browser == "chrome":
-        ChromeDriverManager().install()
         driver = webdriver.Chrome()
+    elif browser == "msedge":
+        driver = webdriver.Edge()
     else:
         raise ValueError("Unsupported browser!")
     # driver.maximize_window()
@@ -73,15 +71,16 @@ def extract_results(driver):
     for name, price, element in zip(product_names, product_prices, product_elements):
         product_info = {
             "Product Name": name.text,
-            "Display Price": price.text,
+            "Display Price": price.text.encode("utf-8", "replace"),
             "Product Link": element.get_attribute("href")
         }
         results.append(product_info)
 
     return results
 
-@pytest.mark.parametrize("browser", ["chrome", "firefox"])
+@pytest.mark.parametrize("browser", ["chrome", "firefox", "msedge"])
 def test_flipkart_search(browser):
+    # sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
     print(f"Running test on {browser}")
     driver = setup_driver(browser)
     try:
