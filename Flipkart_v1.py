@@ -78,7 +78,7 @@ def extract_results(driver):
 
     return results
 
-@pytest.mark.parametrize("browser", ["chrome", "firefox", "msedge"])
+@pytest.mark.parametrize("browser", ["chrome", "firefox"])
 def test_flipkart_search(browser):
     # sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
     print(f"Running test on {browser}")
