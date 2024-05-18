@@ -4,6 +4,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import sys
+import codecs
 
 def setup_driver():
     # options = webdriver.ChromeOptions()
@@ -28,8 +30,6 @@ def search_product(driver, product_name):
     search_box.send_keys(product_name)
     search_box.send_keys(Keys.RETURN)
     time.sleep(1)
-
-
 
 def apply_filters(driver):
     mobiles_category = WebDriverWait(driver, 10).until(
@@ -56,7 +56,6 @@ def apply_filters(driver):
     sort_dropdown.click()
     time.sleep(2)
 
-
 def extract_results(driver):
     time.sleep(5)
     
@@ -76,6 +75,9 @@ def extract_results(driver):
     return results
 
 def main():
+    # Set the output encoding to UTF-8
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
+    
     driver = setup_driver()
     try:
         search_product(driver, "Samsung Galaxy S10")
