@@ -3,16 +3,22 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 import time
+import pytest
 import sys
 import codecs
 
-def setup_driver():
-    # options = webdriver.ChromeOptions()
-    
-    # options.add_argument("--start-maximized")
-    # driver = webdriver.Chrome(options=options)
-    driver = webdriver.Firefox()
+def setup_driver(browser):
+    print(f"Setting up {browser} driver.")
+    if browser == "firefox":
+        driver = webdriver.Firefox()
+    elif browser == "chrome":
+        ChromeDriverManager().install()
+        driver = webdriver.Chrome()
+    else:
+        raise ValueError("Unsupported browser!")
+    # driver.maximize_window()
     return driver
 
 def search_product(driver, product_name):
@@ -74,11 +80,10 @@ def extract_results(driver):
 
     return results
 
-def main():
-    # Set the output encoding to UTF-8
-    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
-    
-    driver = setup_driver()
+@pytest.mark.parametrize("browser", ["chrome", "firefox"])
+def test_flipkart_search(browser):
+    print(f"Running test on {browser}")
+    driver = setup_driver(browser)
     try:
         search_product(driver, "Samsung Galaxy S10")
         time.sleep(2)
@@ -90,4 +95,4 @@ def main():
         driver.quit()
 
 if __name__ == "__main__":
-    main()
+    pytest.main()
