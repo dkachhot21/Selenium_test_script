@@ -19,7 +19,7 @@ buildName: browserstack build
 # ${BUILD_NUMBER} (Default): Generates an incremental counter with every execution
 # ${DATE_TIME}: Generates a Timestamp with every execution. Eg. 05-Nov-19:30
 # Read more about buildIdentifiers here -> https://www.browserstack.com/docs/automate/selenium/organize-tests
-buildIdentifier: '#${BUILD_NUMBER}' # Supports strings along with either/both ${expression}
+buildIdentifier: ${DATE_TIME} # Supports strings along with either/both ${expression}
 
 # =======================================
 # Platforms (Browsers / Devices to test)
@@ -27,9 +27,13 @@ buildIdentifier: '#${BUILD_NUMBER}' # Supports strings along with either/both ${
 # Platforms object contains all the browser / device combinations you want to test on.
 # Entire list available here -> (https://www.browserstack.com/list-of-browsers-and-platforms/automate)
 platforms:
-  - os: OS X
-    osVersion: Big Sur
-    browserName: Chrome
+  - os: Windows
+    osVersion: 11
+    browserName: Firefox
+    browserVersion: latest
+  - os: Windows
+    osVersion: 10
+    browserName: Edge
     browserVersion: latest
   - os: OS X
     osVersion: Monterey
@@ -37,16 +41,13 @@ platforms:
     browserVersion: 15.6
   - os: Windows
     osVersion: 10
+    browserName: Chrome
+    browserVersion: latest
+  - os: OS X
+    osVersion: Ventura
     browserName: Edge
     browserVersion: latest
-  - deviceName: iPhone 13
-    osVersion: 15
-    browserName: Chromium
-    deviceOrientation: portrait
-  - deviceName: Samsung Galaxy S23 Ultra
-    osVersion: 13.0
-    browserName: chrome
-    deviceOrientation: portrait
+
 
 # ==========================================
 # BrowserStack Local

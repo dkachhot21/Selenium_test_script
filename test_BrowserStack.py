@@ -5,12 +5,31 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+import os
 import time
 import json
 
+username = os.environ.get('BROWSERSTACK_USERNAME')
+accessKey = os.environ.get('BROWSERSTACK_ACCESS_KEY')
+buildName = os.environ.get('BROWSERSTACK_BUILD_NAME')
+local = os.environ.get('BROWSERSTACK_LOCAL')
+localIdentifier = os.environ.get('BROWSERSTACK_LOCAL_IDENTIFIER')
+
+bstack_options = {
+    "os" : "Windows",
+    "osVersion" : "10",
+    "sessionName" : "BStack Build Name: " + buildName,
+    "local": local,
+    "localIdentifier": localIdentifier,
+    "seleniumVersion" : "4.0.0",
+    "userName": username,
+    "accessKey": accessKey
+}
 options = ChromeOptions()
-# options.set_capability('sessionName', 'Flipkart Selenium test')
-driver = webdriver.Chrome(options=options)
+options.set_capability('bstack:options', bstack_options)
+driver = webdriver.Remote(
+    command_executor="https://hub.browserstack.com/wd/hub",
+    options=options)
 
 def extract_results(driver):
     time.sleep(2)
